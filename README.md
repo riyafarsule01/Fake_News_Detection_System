@@ -3,7 +3,7 @@
 
 **Data Source:** [Kaggle Fake News Detection Dataset](https://www.kaggle.com/datasets/emineyetm/fake-news-detection-datasets)
 
-![Python](https://img.shields.io/badge/python-3.11-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-0.95-green) ![Docker](https://img.shields.io/badge/Docker-20.10-blue) ![CI/CD](https://img.shields.io/badge/GitHub%20Actions-Active-yellow) ![Status](https://img.shields.io/badge/Status-Development-orange)
+![Python](https://img.shields.io/badge/python-3.11-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-0.95-green)![CI/CD](https://img.shields.io/badge/GitHub%20Actions-Active-yellow) ![Status](https://img.shields.io/badge/Status-Development-orange)
 
 ## Table of Contents
 
@@ -16,11 +16,9 @@
 7. [Data](#data)
 8. [Model Training & Evaluation](#model-training--evaluation)
 9. [API](#api)
-10. [Docker & Deployment](#docker--deployment)
-11. [CI/CD](#cicd)
-12. [Testing](#testing)
-13. [Contributing](#contributing)
-14. [License](#license)
+10. [Deployment](deployment)
+11. [Testing](#testing)
+
 
 ---
 
@@ -35,14 +33,6 @@
 - ✅ **Template Separation** - Clean code structure with HTML templates
 - ✅ **API Endpoints** - Functional GET /, POST /predict, and JSON API
 
-🚧 **In Progress:**
-- Unit testing suite execution
-- Enhanced application testing
-
-⏳ **Pending:**
-- Docker containerization
-- CI/CD pipeline validation
-- Production deployment
 
 ---
 
@@ -61,11 +51,7 @@
 - [x] **Local Environment** - ✅ Running successfully on localhost:3000
 - [ ] **Unit Testing** - Execute comprehensive test suite with pytest
 
-### Phase 3: Deployment & Production
-- [ ] **Docker Container** - Build and test containerized application
-- [ ] **CI/CD Pipeline** - Validate GitHub Actions workflow
-- [ ] **Production Deployment** - Deploy to cloud provider (Render)
-- [ ] **Documentation** - Final cleanup and documentation updates
+
 
 ---
 
@@ -77,7 +63,6 @@ The **Fake News Detection** project is a full-stack machine learning pipeline de
 * Feature engineering (TF-IDF / embeddings)
 * Model training & evaluation
 * REST API for real-time predictions with **FastAPI**
-* Containerization with **Docker**
 * CI/CD workflow with **GitHub Actions**
 * Deployment-ready setup for **Render**
 
@@ -91,7 +76,6 @@ This project demonstrates **production-ready MLOps practices**, including modula
 * Preprocessing & feature engineering scripts
 * End-to-end ML pipeline: train → evaluate → save → predict
 * REST API for predictions (`POST /predict`)
-* Dockerized environment for reproducibility
 * CI/CD pipeline for testing and deployment
 * Support for additional datasets via `data/raw_data/`
 
@@ -131,11 +115,13 @@ fake-news-detection/
 │       ├── detailed_metrics.csv
 │       └── model_comparison.csv
 │
-├── app/                    # FastAPI web application (✅ COMPLETED)
+├── app/                    # FastAPI web application 
 │   ├── __init__.py
 │   ├── main.py            # Clean FastAPI app with template loading
-│   └── templates/         # HTML templates
-│       └── home.html      # Beautiful modern UI with gradient design
+│   └── docs/        
+│       └── home.html
+        └── style.css
+        └── script.js     # Beautiful modern UI with gradient design
 │
 ├── config/
 │   ├── __init__.py
@@ -145,16 +131,9 @@ fake-news-detection/
 │   ├── __init__.py
 │   ├── test_main.py       # FastAPI endpoint tests
 │   ├── test_model.py      # Model functionality tests
-│   └── manual_test.py     # Manual testing scripts
 │
-├── scripts/                # Helper scripts
-│   ├── run.sh             # Application startup script
-│   └── setup.sh           # Environment setup script
-│
-├── Dockerfile             # Docker containerization
-├── docker-compose.yml     # Multi-container setup
-├── requirements.txt       # Python dependencies
-├── Makefile              # Build automation
+|── requirements.txt       # Python dependencies
+|
 ├── README.md             # Project documentation
 └── .gitignore            # Git ignore rules
 ```
@@ -244,7 +223,7 @@ Trained models and artifacts saved to `models/` directory:
 
 **FastAPI Web Application:**
 - **Beautiful Modern UI** with gradient design and animations
-- **Template Separation** - HTML in `app/templates/home.html`
+- **Template Separation** - HTML,CSS,Javascript in `app/docs/home.html/Style.css/Script.js`
 - **Clean Code Structure** - No code duplication
 - **Responsive Design** - Works on mobile and desktop
 
@@ -258,7 +237,6 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 3000
 
 **Access Points:**
 - **Web Interface**: http://localhost:3000/
-- **Health Check**: http://localhost:3000/health
 - **API Documentation**: http://localhost:3000/docs
 
 **Available Endpoints:**
@@ -266,13 +244,6 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 3000
 - `GET /health` → API health status and model information
 - `POST /predict` → Web form submission (returns HTML)
 - `POST /api/predict` → JSON API endpoint
-
-**Web Form Features:**
-- **Title Field** (optional) - News headline input
-- **Content Field** (required) - Full article text
-- **Real-time Results** - Instant prediction with confidence
-- **Visual Feedback** - Color-coded results (Green=Real, Red=Fake)
-- **Confidence Bar** - Visual confidence percentage
 
 **JSON API Example:**
 ```bash
@@ -295,25 +266,9 @@ curl -X POST "http://localhost:3000/api/predict" \
 }
 ```
 
----
-
-## Docker & Deployment
-
-**Build Docker image:**
-
-```bash
-docker build -t fake-news-detection .
-```
-
-**Run Docker container:**
-
-```bash
-docker run -p 8000:8000 fake-news-detection
-```
-
 **Deployment:**
 
-* Ready to deploy on **Render** or any Docker-compatible cloud provider.
+* Ready to deploy on **Render**.
 * Ensure `uvicorn main:app` is used as entrypoint in Dockerfile.
 
 ---
@@ -324,7 +279,6 @@ docker run -p 8000:8000 fake-news-detection
 * Automates:
 
   * Testing (`pytest`)
-  * Docker build & push
   * Deployment to Render
 
 ---
@@ -338,24 +292,3 @@ docker run -p 8000:8000 fake-news-detection
 pytest -v
 ```
 
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Commit changes: `git commit -m "Description"`
-4. Push branch: `git push origin feature-name`
-5. Open a Pull Request
-
----
-
-## License
-
-This project is licensed under **MIT License**.
-
----
-
-I can also create a **Markdown table with all scripts and their purpose** for even better clarity in this README if you want.
-
-Do you want me to do that next?
