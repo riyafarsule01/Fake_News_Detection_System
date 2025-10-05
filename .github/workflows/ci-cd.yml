@@ -1,0 +1,67 @@
+# GitHub Actions CI/CD workflow for fake news detection project
+# .github/workflows/ci-cd.yml
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        python -c "import nltk; nltk.download('stopwords')"
+    
+    - name: Create data directories
+      run: |
+        mkdir -p data/raw
+        mkdir -p data/processed
+        mkdir -p models/evaluation
+    
+    - name: Download and preprocess data
+      run: |
+        echo " Starting data preprocessing..."
+        python src/preprocess.py
+        echo " Data preprocessing completed"
+
+
+    - name: Train model (if not present)
+      run: |
+        python src/train.py
+    
+    - name: Run tests
+      run: |
+        python -m pytest tests/ -v --tb=short
+    
+    - name: Test API endpoints
+      run: |
+        python -m uvicorn app.main:app --host 0.0.0.0 --port 3000 &
+        sleep 10
+        curl -f http://localhost:3000/health || exit 1
+        pkill -f uvicorn
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Deploy to Render
+      run: |
+        echo " Tests passed - Ready for Render auto-deploy"
+        echo " Render will auto-deploy from main branch"

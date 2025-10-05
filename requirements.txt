@@ -1,0 +1,37 @@
+# Core Numerical & Data Tools
+numpy
+scipy
+pandas
+
+# Machine Learning
+scikit-learn
+joblib
+
+# NLP & Text Processing
+nltk
+textblob
+
+# Visualization (Optional)
+matplotlib
+seaborn
+wordcloud
+
+# Jupyter / Dev Environment
+jupyterlab
+ipykernel
+
+# Utilities
+tqdm
+python-dotenv
+requests
+
+# API & Deployment
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+
+# Testing
+pytest
+pytest-asyncio
+httpx

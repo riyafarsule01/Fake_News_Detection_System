@@ -1,0 +1,28 @@
+# services:
+#   - type: web
+#     name: fake-news-detection
+#     env: python
+#     buildCommand: pip install -r requirements.txt
+#     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+#     healthCheckPath: /health
+#     envVars:
+#       - key: PYTHON_VERSION
+#         value: 3.12.7
+
+
+
+services:
+  - type: web
+    name: fake-news-detection
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python -c "import nltk; nltk.download('stopwords')"
+      mkdir -p data/raw data/processed models/evaluation
+      python src/preprocess.py --ci-mode
+      python src/train.py --quick-train
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7

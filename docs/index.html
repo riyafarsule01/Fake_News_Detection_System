@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection | Intelligent News Verification for a Smarter You</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="aurora-bg"></div>
+    <div class="grid-container">
+        <main class="main-content">
+            <header>
+                <div class="logo">
+                    <i class="fas fa-newspaper"></i>
+                    <h1> Fake News Detection </h1>
+                </div>
+                <p> Intelligent News Verification for a Smarter You </p>
+            </header>
+
+            <form id="analysis-form">
+                <section class="input-section">
+                    <div class="tabs">
+                        <button type="button" class="tab-button active" data-tab="text-input"><i
+                                class="fas fa-file-alt"></i> Text</button>
+                        <button type="button" class="tab-button" data-tab="url-input"><i class="fas fa-link"></i>
+                            URL</button>
+
+                    </div>
+
+                    <div class="tab-content active" id="text-input">
+                        <textarea id="news-text" rows="12"
+                            placeholder="Paste the full article text here for a prediction..."></textarea>
+                    </div>
+
+                    <div class="tab-content" id="url-input">
+                        <input type="url" id="news-url" placeholder="https://www.example.com/article">
+                    </div>
+
+                </section>
+
+                <div class="button-group">
+                    <button type="submit" id="analyze-btn">
+                        <span class="btn-icon"><i class="fas fa-search-plus"></i></span>
+                        <span class="btn-text">Analyze</span>
+                    </button>
+                    <button type="button" id="clear-btn">
+                        <i class="fas fa-times"></i> Clear All
+                    </button>
+                </div>
+            </form>
+        </main>
+
+        <aside class="results-panel">
+            <div id="idle-state" class="panel-state active">
+                <i class="fas fa-chart-bar results-icon"></i>
+                <h2>Analysis Dashboard</h2>
+                <p>Your detailed report will appear here once an analysis is complete.</p>
+            </div>
+
+            <div id="loading-state" class="panel-state">
+                <div class="loader">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <h2>Running Prediction...</h2>
+                <p>Cross-referencing sources and evaluating linguistic patterns.</p>
+            </div>
+
+            <div id="results-state" class="panel-state">
+                <div class="results-header">
+                    <h2 id="summary-verdict"></h2>
+                    <div class="overall-score">
+                        <div class="score-circle" style="--progress-value: 0;">
+                            <span id="trust-score">0</span>
+                        </div>
+                        <p>Model Accuracy</p>
+                    </div>
+                </div>
+
+                <div class="summary-recommendation">
+                    <i class="fas fa-info-circle"></i>
+                    <p id="summary-text"></p>
+                </div>
+
+                <div class="metrics-breakdown">
+                    <h3>Detailed Metrics</h3>
+                </div>
+
+                <section class="highlighted-text-section">
+                    <h3>Interactive Text Analysis</h3>
+                    <div class="text-container" id="highlighted-text-output">
+                    </div>
+                </section>
+            </div>
+        </aside>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
